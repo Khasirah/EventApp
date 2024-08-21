@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Event App</string>
+    <string name="hello_world">Hello</string>
+    <string name="profile_button">Profile Button</string>
+    <string name="name">Ahmad Haris Kuniawan</string>
+    <string name="email">peppo.silpiana@gmail.com</string>
+    <string name="back">Back Button</string>
+</resources>
