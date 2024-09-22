@@ -3,8 +3,8 @@ package dev.peppo.eventapp.ui.screen.favourite
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.peppo.eventapp.domain.model.Event
-import dev.peppo.eventapp.domain.usecase.EventUseCase
+import dev.peppo.core.domain.model.Event
+import dev.peppo.core.domain.usecase.EventUseCase
 import dev.peppo.eventapp.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -3,8 +3,8 @@ package dev.peppo.eventapp.ui.screen.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.peppo.eventapp.data.remote.response.EventResponse
-import dev.peppo.eventapp.domain.usecase.EventUseCase
+import dev.peppo.core.data.remote.response.EventResponse
+import dev.peppo.core.domain.usecase.EventUseCase
 import dev.peppo.eventapp.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

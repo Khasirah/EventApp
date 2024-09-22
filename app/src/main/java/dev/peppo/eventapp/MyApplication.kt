@@ -1,9 +1,9 @@
 package dev.peppo.eventapp
 
 import android.app.Application
-import dev.peppo.eventapp.core.di.databaseModule
-import dev.peppo.eventapp.core.di.networkModule
-import dev.peppo.eventapp.core.di.repositoryModule
+import dev.peppo.core.di.databaseModule
+import dev.peppo.core.di.networkModule
+import dev.peppo.core.di.repositoryModule
 import dev.peppo.eventapp.di.useCaseModule
 import dev.peppo.eventapp.di.viewModelModule
 import org.koin.android.ext.koin.androidContext

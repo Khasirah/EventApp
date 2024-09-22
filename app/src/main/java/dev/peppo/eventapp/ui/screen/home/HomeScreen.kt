@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.peppo.eventapp.data.remote.response.EventResponse
+import dev.peppo.core.data.remote.response.EventResponse
 import dev.peppo.eventapp.ui.common.UiState
 import dev.peppo.eventapp.ui.components.EventItem
 import org.koin.androidx.compose.koinViewModel

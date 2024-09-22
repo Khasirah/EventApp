@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.compose.compiler)
 }
+apply("../shared_dependencies.gradle")
 
 android {
     namespace = "dev.peppo.eventapp"
@@ -50,35 +51,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    dynamicFeatures += setOf(":favourite")
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-
-    // retrofit
-    implementation(libs.glide)
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor)
-
-    //coroutine support
-    implementation(libs.androidx.lifecycle.viewmodel.ktx) //viewModelScope
-    implementation(libs.androidx.lifecycle.livedata.ktx) //liveData
-    implementation(libs.androidx.room.ktx)
+    implementation(project(":core"))
 
     // viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -89,13 +66,4 @@ dependencies {
     // navigation
     implementation(libs.androidx.navigation.compose)
     androidTestImplementation(libs.androidx.navigation.testing)
-
-    // room
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.room.compiler)
-
-    // koin
-    implementation(libs.koin.core)
-    implementation(libs.koin.android)
-    implementation(libs.koin.compose)
 }

@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.peppo.eventapp.domain.model.Event
+import dev.peppo.core.domain.model.Event
 import dev.peppo.eventapp.ui.common.UiState
 import dev.peppo.eventapp.ui.components.DataEmpty
 import dev.peppo.eventapp.ui.components.EventItem

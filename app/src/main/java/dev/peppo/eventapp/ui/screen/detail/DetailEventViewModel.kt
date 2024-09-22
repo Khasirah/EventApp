@@ -2,9 +2,9 @@ package dev.peppo.eventapp.ui.screen.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.peppo.eventapp.data.remote.response.DetailEventResponse
-import dev.peppo.eventapp.domain.model.Event
-import dev.peppo.eventapp.domain.usecase.EventUseCase
+import dev.peppo.core.data.remote.response.DetailEventResponse
+import dev.peppo.core.domain.model.Event
+import dev.peppo.core.domain.usecase.EventUseCase
 import dev.peppo.eventapp.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
