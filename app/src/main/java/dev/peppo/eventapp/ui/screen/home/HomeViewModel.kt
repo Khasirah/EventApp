@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.peppo.eventapp.data.remote.response.EventResponse
 import dev.peppo.eventapp.data.repository.EventsRepository
+import dev.peppo.eventapp.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import dev.peppo.eventapp.ui.common.UiState
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 

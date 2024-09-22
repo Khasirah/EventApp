@@ -7,7 +7,6 @@ import dev.peppo.eventapp.data.remote.response.EventResponse
 import dev.peppo.eventapp.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import java.security.PrivateKey
 
 class EventsRepository private constructor(
     private val apiService: ApiService,
