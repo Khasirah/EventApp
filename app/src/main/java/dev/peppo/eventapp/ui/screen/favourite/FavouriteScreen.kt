@@ -1,9 +1,8 @@
-package dev.peppo.eventapp.ui.screen.home
+package dev.peppo.eventapp.ui.screen.favourite
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -11,47 +10,49 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.peppo.eventapp.data.remote.response.EventResponse
+import dev.peppo.eventapp.data.local.entity.Event
 import dev.peppo.eventapp.di.Injection
 import dev.peppo.eventapp.ui.common.UiState
+import dev.peppo.eventapp.ui.components.DataEmpty
 import dev.peppo.eventapp.ui.components.EventItem
 import dev.peppo.eventapp.ui.screen.ViewModelFactory
 
 @Composable
-fun HomeScreen(
+fun FavouriteScreen(
     modifier: Modifier = Modifier,
-    homeViewModel: HomeViewModel = viewModel(
+    favouriteViewModel: FavouriteViewModel = viewModel(
         factory = ViewModelFactory(Injection.provideRepository(LocalContext.current))
     ),
-    navigateToDetail: (Int) -> Unit
+    navigateToDetail: (Int) -> Unit,
 ) {
-    homeViewModel.uiState.collectAsState(initial = UiState.Loading).value.let { result ->
-        when (result) {
+    favouriteViewModel.uiState.collectAsState(initial = UiState.Loading).value.let { result ->
+        when(result) {
             is UiState.Loading -> {
-                homeViewModel.getAllEvent()
+                favouriteViewModel.getAllFavouriteEvent()
             }
-
             is UiState.Success -> {
-                HomeContent(
-                    eventResponse = result.data,
-                    modifier = modifier,
-                    navigateToDetail = navigateToDetail
-                )
+                if (result.data.isEmpty()) {
+                    DataEmpty(modifier = modifier)
+                } else {
+                    FavouriteContent(
+                        favouriteEvent = result.data,
+                        navigateToDetail = navigateToDetail,
+                        modifier = modifier
+                    )
+                }
             }
-
             is UiState.Error -> {}
         }
     }
 }
 
 @Composable
-fun HomeContent(
-    eventResponse: EventResponse,
-    modifier: Modifier = Modifier,
-    navigateToDetail: (Int) -> Unit
+fun FavouriteContent(
+    favouriteEvent: List<Event>,
+    navigateToDetail: (Int) -> Unit,
+    modifier: Modifier
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -60,7 +61,7 @@ fun HomeContent(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
     ) {
-        items(eventResponse.listEvents) { data ->
+        items(favouriteEvent) { data ->
             EventItem(
                 name = data.name,
                 mediaCover = data.mediaCover,

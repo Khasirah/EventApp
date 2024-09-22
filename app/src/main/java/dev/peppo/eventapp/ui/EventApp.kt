@@ -2,6 +2,7 @@ package dev.peppo.eventapp.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,6 +27,7 @@ import dev.peppo.eventapp.R
 import dev.peppo.eventapp.navigation.Screen
 import dev.peppo.eventapp.ui.screen.about.AboutScreen
 import dev.peppo.eventapp.ui.screen.detail.DetailScreen
+import dev.peppo.eventapp.ui.screen.favourite.FavouriteScreen
 import dev.peppo.eventapp.ui.screen.home.HomeScreen
 
 @Composable
@@ -61,6 +63,13 @@ fun EventApp(
             composable(Screen.About.route) {
                 AboutScreen()
             }
+            composable(Screen.Favourite.route) {
+                FavouriteScreen(
+                    navigateToDetail = { eventId ->
+                        navController.navigate(Screen.DetailEvent.createRoute(eventId))
+                    }
+                )
+            }
             composable(
                 route = Screen.DetailEvent.route,
                 arguments = listOf(navArgument("eventId") { type = NavType.IntType })
@@ -86,7 +95,13 @@ fun MyTopBar(
     val currentRoute = navBackStackEntry?.destination?.route
 
     TopAppBar(
-        title = { Text(stringResource(R.string.app_name)) },
+        title = {
+            val title = when (currentRoute) {
+                "favourite" -> "Favourite"
+                else -> stringResource(id = R.string.app_name)
+            }
+            Text(text = title)
+        },
         actions = {
             if (currentRoute != Screen.About.route) {
                 IconButton(
@@ -104,6 +119,27 @@ fun MyTopBar(
                     Icon(
                         imageVector = Icons.Default.Person,
                         contentDescription = stringResource(R.string.profile_button),
+                    )
+                }
+            }
+            if (currentRoute == Screen.About.route) {
+                IconButton(
+                    onClick = {
+                        navController.navigate(Screen.Favourite.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            restoreState = true
+                            launchSingleTop = true
+                        }
+                    },
+                    modifier = Modifier.testTag("favourite")
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = stringResource(
+                            id = R.string.favourite_button
+                        )
                     )
                 }
             }

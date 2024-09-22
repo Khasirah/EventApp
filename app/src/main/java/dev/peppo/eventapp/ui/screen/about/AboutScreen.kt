@@ -1,8 +1,6 @@
 package dev.peppo.eventapp.ui.screen.about
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,11 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,10 +37,10 @@ fun AboutScreen(
         Image(
             painter = painterResource(id = R.drawable.photo),
             contentDescription = stringResource(id = R.string.name),
+            contentScale = ContentScale.Crop,
             modifier = modifier
                 .clip(CircleShape)
                 .size(100.dp),
-            contentScale = ContentScale.Crop
         )
         Spacer(modifier = modifier.height(16.dp))
         Text(

@@ -5,4 +5,6 @@
     <string name="name">Ahmad Haris Kuniawan</string>
     <string name="email">peppo.silpiana@gmail.com</string>
     <string name="back">Back Button</string>
+    <string name="favourite_button">Favourite Button</string>
+    <string name="data_empty">Tidak Ada Data</string>
 </resources>

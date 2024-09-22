@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dev.peppo.eventapp.data.repository.EventsRepository
 import dev.peppo.eventapp.ui.screen.detail.DetailEventViewModel
+import dev.peppo.eventapp.ui.screen.favourite.FavouriteViewModel
 import dev.peppo.eventapp.ui.screen.home.HomeViewModel
 
 class ViewModelFactory (
@@ -17,6 +18,9 @@ class ViewModelFactory (
         }
         if (modelClass.isAssignableFrom(DetailEventViewModel::class.java)) {
             return DetailEventViewModel(eventsRepository) as T
+        }
+        if (modelClass.isAssignableFrom(FavouriteViewModel::class.java)) {
+            return FavouriteViewModel(eventsRepository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

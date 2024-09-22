@@ -1,6 +1,5 @@
 package dev.peppo.eventapp.ui.screen.detail
 
-import android.text.Html
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -8,16 +7,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,16 +32,30 @@ import dev.peppo.eventapp.data.remote.response.Event
 import dev.peppo.eventapp.di.Injection
 import dev.peppo.eventapp.ui.common.UiState
 import dev.peppo.eventapp.ui.screen.ViewModelFactory
+import dev.peppo.eventapp.data.local.entity.Event as FavEvent
 
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
     eventId: Int,
     detailEventViewModel: DetailEventViewModel = viewModel(
-        factory = ViewModelFactory(Injection.provideRepository())
+        factory = ViewModelFactory(Injection.provideRepository(LocalContext.current))
     ),
     navigateBack: () -> Unit
 ) {
+    var isFavouriteEvent = false
+    detailEventViewModel.isFavouriteEvent.collectAsState().value.let {result ->
+        when(result) {
+            is UiState.Loading -> {
+                detailEventViewModel.isFavouriteEvent(eventId)
+            }
+            is UiState.Success -> {
+                isFavouriteEvent = result.data
+            }
+            is UiState.Error -> {}
+        }
+    }
+
     detailEventViewModel.uiState.collectAsState(initial = UiState.Loading).value.let { result ->
         when(result) {
             is UiState.Loading -> {
@@ -46,9 +63,16 @@ fun DetailScreen(
             }
             is UiState.Success -> {
                 DetailContent(
-                    modifier = modifier,
                     event = result.data.event,
-                    onBackClick = navigateBack
+                    onBackClick = navigateBack,
+                    isFavouriteEvent = isFavouriteEvent,
+                    updateIsFavouriteEvent = {
+                        val favEvent = FavEvent(
+                            result.data.event.id, result.data.event.name, result.data.event.mediaCover
+                        )
+                        detailEventViewModel.updateIsFavouriteEvent(favEvent, isFavouriteEvent)
+                    },
+                    modifier = modifier
                 )
             }
             is UiState.Error -> {}
@@ -60,7 +84,9 @@ fun DetailScreen(
 fun DetailContent(
     modifier: Modifier = Modifier,
     event: Event,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    isFavouriteEvent: Boolean,
+    updateIsFavouriteEvent: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -83,6 +109,19 @@ fun DetailContent(
                 modifier = modifier
                     .padding(16.dp)
                     .clickable { onBackClick() }
+            )
+            Icon(
+                imageVector = if (isFavouriteEvent) {
+                    Icons.Default.Favorite
+                } else {
+                    Icons.Default.FavoriteBorder
+                },
+                contentDescription = stringResource(id = R.string.favourite_button),
+                modifier = modifier
+                    .padding(16.dp)
+                    .align(Alignment.BottomEnd)
+                    .size(32.dp)
+                    .clickable { updateIsFavouriteEvent() }
             )
         }
         Column(
