@@ -13,7 +13,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.peppo.eventapp.data.remote.response.EventResponse
-import dev.peppo.eventapp.di.Injection
 import dev.peppo.eventapp.ui.common.UiState
 import dev.peppo.eventapp.ui.components.EventItem
 import dev.peppo.eventapp.ui.screen.ViewModelFactory
@@ -22,7 +21,7 @@ import dev.peppo.eventapp.ui.screen.ViewModelFactory
 fun HomeScreen(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = viewModel(
-        factory = ViewModelFactory(Injection.provideRepository(LocalContext.current))
+        factory = ViewModelFactory.getInstance(LocalContext.current)
     ),
     navigateToDetail: (Int) -> Unit
 ) {

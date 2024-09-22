@@ -29,17 +29,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import dev.peppo.eventapp.R
 import dev.peppo.eventapp.data.remote.response.Event
-import dev.peppo.eventapp.di.Injection
 import dev.peppo.eventapp.ui.common.UiState
 import dev.peppo.eventapp.ui.screen.ViewModelFactory
-import dev.peppo.eventapp.data.local.entity.Event as FavEvent
+import dev.peppo.eventapp.utils.DataMapper
 
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
     eventId: Int,
     detailEventViewModel: DetailEventViewModel = viewModel(
-        factory = ViewModelFactory(Injection.provideRepository(LocalContext.current))
+        factory = ViewModelFactory.getInstance(LocalContext.current)
     ),
     navigateBack: () -> Unit
 ) {
@@ -67,10 +66,10 @@ fun DetailScreen(
                     onBackClick = navigateBack,
                     isFavouriteEvent = isFavouriteEvent,
                     updateIsFavouriteEvent = {
-                        val favEvent = FavEvent(
-                            result.data.event.id, result.data.event.name, result.data.event.mediaCover
+                        detailEventViewModel.updateIsFavouriteEvent(
+                            DataMapper.mapResponseToDomain(result.data.event),
+                            isFavouriteEvent
                         )
-                        detailEventViewModel.updateIsFavouriteEvent(favEvent, isFavouriteEvent)
                     },
                     modifier = modifier
                 )

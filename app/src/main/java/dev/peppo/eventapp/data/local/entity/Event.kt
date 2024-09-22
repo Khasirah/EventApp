@@ -17,5 +17,8 @@ data class Event(
     var name: String,
 
     @ColumnInfo(name = "mediaCover")
-    var mediaCover: String
+    var mediaCover: String,
+
+    @ColumnInfo(name = "summary")
+    var summary: String
 ): Parcelable

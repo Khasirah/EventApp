@@ -12,8 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.peppo.eventapp.data.local.entity.Event
-import dev.peppo.eventapp.di.Injection
+import dev.peppo.eventapp.domain.model.Event
 import dev.peppo.eventapp.ui.common.UiState
 import dev.peppo.eventapp.ui.components.DataEmpty
 import dev.peppo.eventapp.ui.components.EventItem
@@ -23,7 +22,7 @@ import dev.peppo.eventapp.ui.screen.ViewModelFactory
 fun FavouriteScreen(
     modifier: Modifier = Modifier,
     favouriteViewModel: FavouriteViewModel = viewModel(
-        factory = ViewModelFactory(Injection.provideRepository(LocalContext.current))
+        factory = ViewModelFactory.getInstance(LocalContext.current)
     ),
     navigateToDetail: (Int) -> Unit,
 ) {

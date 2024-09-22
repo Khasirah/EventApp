@@ -1,38 +1,47 @@
 package dev.peppo.eventapp.data.repository
 
-import dev.peppo.eventapp.data.local.entity.Event
 import dev.peppo.eventapp.data.local.room.EventDao
 import dev.peppo.eventapp.data.remote.response.DetailEventResponse
 import dev.peppo.eventapp.data.remote.response.EventResponse
 import dev.peppo.eventapp.data.remote.retrofit.ApiService
+import dev.peppo.eventapp.domain.repository.IEventRepository
+import dev.peppo.eventapp.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import dev.peppo.eventapp.domain.model.Event as EventDomain
 
 class EventsRepository private constructor(
     private val apiService: ApiService,
     private val eventDao: EventDao
-) {
-    suspend fun getAllEvent(): Flow<EventResponse> {
+): IEventRepository {
+    override suspend fun getAllEvent(): Flow<EventResponse> {
         return flowOf(apiService.getAllEvent())
     }
 
-    suspend fun getDetailEvent(eventId: Int): Flow<DetailEventResponse> {
+    override suspend fun getDetailEvent(eventId: Int): Flow<DetailEventResponse> {
         return flowOf(apiService.getDetailEvent(eventId))
     }
 
-    fun getAllFavouriteEvents(): Flow<List<Event>> {
-        return eventDao.getAllEvent()
+    override fun getAllFavouriteEvents(): Flow<List<EventDomain>> {
+        return eventDao.getAllEvent().map {
+            DataMapper.mapEntitiesToDomain(it)
+        }
     }
 
-    suspend fun saveFavouriteEvent(event: Event) {
-        eventDao.insert(event)
+    override suspend fun saveFavouriteEvent(event: EventDomain) {
+        eventDao.insert(
+            DataMapper.mapDomainToEntities(event)
+        )
     }
 
-    suspend fun deleteFavouriteEvent(event: Event) {
-        eventDao.delete(event)
+    override suspend fun deleteFavouriteEvent(event: EventDomain) {
+        eventDao.delete(
+            DataMapper.mapDomainToEntities(event)
+        )
     }
 
-    fun isFavouriteEvent(id: Int): Flow<Boolean> {
+    override fun isFavouriteEvent(id: Int): Flow<Boolean> {
         return eventDao.isFavouriteEvent(id)
     }
 

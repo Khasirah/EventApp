@@ -2,9 +2,9 @@ package dev.peppo.eventapp.ui.screen.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.peppo.eventapp.data.local.entity.Event
 import dev.peppo.eventapp.data.remote.response.DetailEventResponse
-import dev.peppo.eventapp.data.repository.EventsRepository
+import dev.peppo.eventapp.domain.model.Event
+import dev.peppo.eventapp.domain.usecase.EventUseCase
 import dev.peppo.eventapp.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class DetailEventViewModel(
-    private val eventRepository: EventsRepository
+    private val eventUseCase: EventUseCase
 ): ViewModel() {
     private val _uiState: MutableStateFlow<UiState<DetailEventResponse>> = MutableStateFlow(UiState.Loading)
     val uiState: StateFlow<UiState<DetailEventResponse>> get() = _uiState
@@ -21,7 +21,7 @@ class DetailEventViewModel(
 
     fun getDetailEvent(eventId: Int) {
         viewModelScope.launch {
-            eventRepository.getDetailEvent(eventId)
+            eventUseCase.getDetailEvent(eventId)
                 .catch {
                     _uiState.value = UiState.Error(it.message.toString())
                 }
@@ -33,7 +33,7 @@ class DetailEventViewModel(
 
     fun isFavouriteEvent(id: Int) {
         viewModelScope.launch {
-            eventRepository.isFavouriteEvent(id)
+            eventUseCase.isFavouriteEvent(id)
                 .catch {
                     _isFavouriteEvent.value = UiState.Error(it.message.toString())
                 }
@@ -46,9 +46,9 @@ class DetailEventViewModel(
     fun updateIsFavouriteEvent(event: Event, isFavouriteEvent: Boolean) {
         viewModelScope.launch {
             if (isFavouriteEvent) {
-                eventRepository.deleteFavouriteEvent(event)
+                eventUseCase.deleteFavouriteEvent(event)
             } else {
-                eventRepository.saveFavouriteEvent(event)
+                eventUseCase.saveFavouriteEvent(event)
             }
         }
     }
