@@ -9,20 +9,16 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.peppo.eventapp.data.remote.response.EventResponse
 import dev.peppo.eventapp.ui.common.UiState
 import dev.peppo.eventapp.ui.components.EventItem
-import dev.peppo.eventapp.ui.screen.ViewModelFactory
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    homeViewModel: HomeViewModel = viewModel(
-        factory = ViewModelFactory.getInstance(LocalContext.current)
-    ),
+    homeViewModel: HomeViewModel = koinViewModel(),
     navigateToDetail: (Int) -> Unit
 ) {
     homeViewModel.uiState.collectAsState(initial = UiState.Loading).value.let { result ->

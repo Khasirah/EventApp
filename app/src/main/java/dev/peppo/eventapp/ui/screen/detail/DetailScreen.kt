@@ -20,26 +20,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import dev.peppo.eventapp.R
 import dev.peppo.eventapp.data.remote.response.Event
 import dev.peppo.eventapp.ui.common.UiState
-import dev.peppo.eventapp.ui.screen.ViewModelFactory
 import dev.peppo.eventapp.utils.DataMapper
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
     eventId: Int,
-    detailEventViewModel: DetailEventViewModel = viewModel(
-        factory = ViewModelFactory.getInstance(LocalContext.current)
-    ),
+    detailEventViewModel: DetailEventViewModel = koinViewModel(),
     navigateBack: () -> Unit
 ) {
     var isFavouriteEvent = false

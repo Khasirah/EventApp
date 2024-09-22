@@ -9,21 +9,17 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.peppo.eventapp.domain.model.Event
 import dev.peppo.eventapp.ui.common.UiState
 import dev.peppo.eventapp.ui.components.DataEmpty
 import dev.peppo.eventapp.ui.components.EventItem
-import dev.peppo.eventapp.ui.screen.ViewModelFactory
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FavouriteScreen(
     modifier: Modifier = Modifier,
-    favouriteViewModel: FavouriteViewModel = viewModel(
-        factory = ViewModelFactory.getInstance(LocalContext.current)
-    ),
+    favouriteViewModel: FavouriteViewModel = koinViewModel(),
     navigateToDetail: (Int) -> Unit,
 ) {
     favouriteViewModel.uiState.collectAsState(initial = UiState.Loading).value.let { result ->

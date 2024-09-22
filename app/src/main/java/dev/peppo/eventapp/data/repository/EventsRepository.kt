@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import dev.peppo.eventapp.domain.model.Event as EventDomain
 
-class EventsRepository private constructor(
+class EventsRepository(
     private val apiService: ApiService,
     private val eventDao: EventDao
 ): IEventRepository {
@@ -45,14 +45,14 @@ class EventsRepository private constructor(
         return eventDao.isFavouriteEvent(id)
     }
 
-    companion object {
-        @Volatile
-        private var instance: EventsRepository? = null
-        fun getInstance(
-            apiService: ApiService,
-            eventDao: EventDao
-        ): EventsRepository = instance ?: synchronized(this) {
-            instance ?: EventsRepository(apiService, eventDao)
-        }.also { instance = it }
-    }
+//    companion object {
+//        @Volatile
+//        private var instance: EventsRepository? = null
+//        fun getInstance(
+//            apiService: ApiService,
+//            eventDao: EventDao
+//        ): EventsRepository = instance ?: synchronized(this) {
+//            instance ?: EventsRepository(apiService, eventDao)
+//        }.also { instance = it }
+//    }
 }

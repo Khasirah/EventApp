@@ -93,4 +93,9 @@ dependencies {
     // room
     implementation(libs.androidx.room.runtime)
     ksp(libs.room.compiler)
+
+    // koin
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
 }
