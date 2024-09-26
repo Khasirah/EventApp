@@ -2,8 +2,9 @@ package dev.peppo.core.data.repository
 
 import dev.peppo.core.data.local.room.EventDao
 import dev.peppo.core.data.remote.response.DetailEventResponse
-import dev.peppo.core.data.remote.response.EventResponse
 import dev.peppo.core.data.remote.retrofit.ApiService
+import dev.peppo.core.domain.model.DetailEventResDomain
+import dev.peppo.core.domain.model.EventResDomain
 import dev.peppo.core.domain.repository.IEventRepository
 import dev.peppo.core.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
@@ -15,12 +16,14 @@ class EventsRepository(
     private val apiService: ApiService,
     private val eventDao: EventDao
 ): IEventRepository {
-    override suspend fun getAllEvent(): Flow<EventResponse> {
-        return flowOf(apiService.getAllEvent())
+    override suspend fun getAllEvent(): Flow<EventResDomain> {
+        val response = apiService.getAllEvent()
+        return flowOf(DataMapper.mapEventResToEntities(response))
     }
 
-    override suspend fun getDetailEvent(eventId: Int): Flow<DetailEventResponse> {
-        return flowOf(apiService.getDetailEvent(eventId))
+    override suspend fun getDetailEvent(eventId: Int): Flow<DetailEventResDomain> {
+        val response = apiService.getDetailEvent(eventId)
+        return flowOf(DataMapper.mapDetailEventResToEntities(response))
     }
 
     override fun getAllFavouriteEvents(): Flow<List<EventDomain>> {
@@ -44,15 +47,4 @@ class EventsRepository(
     override fun isFavouriteEvent(id: Int): Flow<Boolean> {
         return eventDao.isFavouriteEvent(id)
     }
-
-//    companion object {
-//        @Volatile
-//        private var instance: EventsRepository? = null
-//        fun getInstance(
-//            apiService: ApiService,
-//            eventDao: EventDao
-//        ): EventsRepository = instance ?: synchronized(this) {
-//            instance ?: EventsRepository(apiService, eventDao)
-//        }.also { instance = it }
-//    }
 }

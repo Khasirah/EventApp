@@ -25,10 +25,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import dev.peppo.core.domain.model.Event
 import dev.peppo.eventapp.R
-import dev.peppo.core.data.remote.response.Event
 import dev.peppo.eventapp.ui.common.UiState
-import dev.peppo.core.utils.DataMapper
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -63,7 +62,7 @@ fun DetailScreen(
                     isFavouriteEvent = isFavouriteEvent,
                     updateIsFavouriteEvent = {
                         detailEventViewModel.updateIsFavouriteEvent(
-                            DataMapper.mapResponseToDomain(result.data.event),
+                            result.data.event,
                             isFavouriteEvent
                         )
                     },

@@ -1,4 +1,4 @@
-package dev.peppo.eventapp.ui.screen.favourite
+package dev.peppo.eventapp.favourite
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,13 +15,15 @@ import dev.peppo.eventapp.ui.common.UiState
 import dev.peppo.eventapp.ui.components.DataEmpty
 import dev.peppo.eventapp.ui.components.EventItem
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.context.loadKoinModules
 
 @Composable
 fun FavouriteScreen(
     modifier: Modifier = Modifier,
-    favouriteViewModel: FavouriteViewModel = koinViewModel(),
     navigateToDetail: (Int) -> Unit,
 ) {
+    loadKoinModules(favouriteModule)
+    val favouriteViewModel: FavouriteViewModel = koinViewModel()
     favouriteViewModel.uiState.collectAsState(initial = UiState.Loading).value.let { result ->
         when(result) {
             is UiState.Loading -> {

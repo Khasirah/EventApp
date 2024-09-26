@@ -1,4 +1,4 @@
-package dev.peppo.eventapp.ui.screen.favourite
+package dev.peppo.eventapp.favourite
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

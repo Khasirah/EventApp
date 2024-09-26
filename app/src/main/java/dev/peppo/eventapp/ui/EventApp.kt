@@ -27,8 +27,8 @@ import dev.peppo.eventapp.R
 import dev.peppo.eventapp.navigation.Screen
 import dev.peppo.eventapp.ui.screen.about.AboutScreen
 import dev.peppo.eventapp.ui.screen.detail.DetailScreen
-import dev.peppo.eventapp.ui.screen.favourite.FavouriteScreen
 import dev.peppo.eventapp.ui.screen.home.HomeScreen
+import dev.peppo.eventapp.utils.favourite
 
 @Composable
 fun EventApp(
@@ -63,13 +63,11 @@ fun EventApp(
             composable(Screen.About.route) {
                 AboutScreen()
             }
-            composable(Screen.Favourite.route) {
-                FavouriteScreen(
-                    navigateToDetail = { eventId ->
-                        navController.navigate(Screen.DetailEvent.createRoute(eventId))
-                    }
-                )
-            }
+            favourite(
+                navigateToDetail = { eventId ->
+                    navController.navigate(Screen.DetailEvent.createRoute(eventId))
+                }
+            )
             composable(
                 route = Screen.DetailEvent.route,
                 arguments = listOf(navArgument("eventId") { type = NavType.IntType })

@@ -3,6 +3,7 @@ package dev.peppo.eventapp.ui.screen.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.peppo.core.data.remote.response.DetailEventResponse
+import dev.peppo.core.domain.model.DetailEventResDomain
 import dev.peppo.core.domain.model.Event
 import dev.peppo.core.domain.usecase.EventUseCase
 import dev.peppo.eventapp.ui.common.UiState
@@ -14,8 +15,8 @@ import kotlinx.coroutines.launch
 class DetailEventViewModel(
     private val eventUseCase: EventUseCase
 ): ViewModel() {
-    private val _uiState: MutableStateFlow<UiState<DetailEventResponse>> = MutableStateFlow(UiState.Loading)
-    val uiState: StateFlow<UiState<DetailEventResponse>> get() = _uiState
+    private val _uiState: MutableStateFlow<UiState<DetailEventResDomain>> = MutableStateFlow(UiState.Loading)
+    val uiState: StateFlow<UiState<DetailEventResDomain>> get() = _uiState
     private val _isFavouriteEvent: MutableStateFlow<UiState<Boolean>> = MutableStateFlow(UiState.Loading)
     val isFavouriteEvent: StateFlow<UiState<Boolean>> get() = _isFavouriteEvent
 
